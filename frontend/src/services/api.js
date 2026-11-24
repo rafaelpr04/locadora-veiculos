@@ -40,6 +40,8 @@ async function request(caminho, { method = 'GET', body } = {}) {
 
 export const api = {
   registrar: (dados) => request('/auth/registrar', { method: 'POST', body: dados }),
+  criarAdmin: (dados) => request('/auth/admin', { method: 'POST', body: dados }),
+  listarAdmins: () => request('/auth/admins'),
   login: (dados) => request('/auth/login', { method: 'POST', body: dados }),
   perfil: () => request('/auth/perfil'),
   listarVeiculos: (somenteDisponiveis) =>

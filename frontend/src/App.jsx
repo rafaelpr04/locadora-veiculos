@@ -4,6 +4,7 @@ import AuthForm from './components/AuthForm.jsx';
 import VeiculosPage from './pages/VeiculosPage.jsx';
 import LocacoesPage from './pages/LocacoesPage.jsx';
 import PainelAdminLocacoes from './components/PainelAdminLocacoes.jsx';
+import AdminUsuarios from './components/AdminUsuarios.jsx';
 
 export default function App() {
   const { usuario, carregando, sair } = useAuth();
@@ -45,6 +46,12 @@ export default function App() {
                 Gestão da Frota
               </button>
               <button
+                className={aba === 'admins' ? 'aba ativa' : 'aba'}
+                onClick={() => setAba('admins')}
+              >
+                Administradores
+              </button>
+              <button
                 className={aba === 'locacoes' ? 'aba ativa' : 'aba'}
                 onClick={() => setAba('locacoes')}
               >
@@ -82,6 +89,7 @@ export default function App() {
       </header>
       <main className="conteudo">
         {isAdmin && aba === 'painel' && <PainelAdminLocacoes />}
+        {isAdmin && aba === 'admins' && <AdminUsuarios />}
         {aba === 'veiculos' && <VeiculosPage onAlugar={handleAlugar} />}
         {aba === 'locacoes' && (
           <LocacoesPage veiculoIdPreselecionado={veiculoSelecionado} />

@@ -6,7 +6,7 @@ const AppError = require('../utils/AppError');
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const publico = { id: true, nome: true, email: true, role: true, criadoEm: true };
 
-async function registrar({ nome, email, senha, role } = {}) {
+async function registrar({ nome, email, senha } = {}) {
   if (typeof nome !== 'string' || !nome.trim()) {
     throw new AppError(400, 'Nome é obrigatório');
   }
@@ -16,8 +16,6 @@ async function registrar({ nome, email, senha, role } = {}) {
   if (typeof senha !== 'string' || senha.length < 6) {
     throw new AppError(400, 'A senha deve ter pelo menos 6 caracteres');
   }
-
-  const roleNormalizada = role === 'ADMIN' ? 'ADMIN' : 'CLIENTE';
 
   const emailNormalizado = email.trim().toLowerCase();
   const existente = await prisma.usuario.findUnique({ where: { email: emailNormalizado } });
@@ -31,9 +29,46 @@ async function registrar({ nome, email, senha, role } = {}) {
       nome: nome.trim(),
       email: emailNormalizado,
       senha: hash,
-      role: roleNormalizada,
+      role: 'CLIENTE',
     },
     select: publico,
+  });
+}
+
+async function criarAdmin({ nome, email, senha } = {}) {
+  if (typeof nome !== 'string' || !nome.trim()) {
+    throw new AppError(400, 'Nome é obrigatório');
+  }
+  if (typeof email !== 'string' || !EMAIL.test(email.trim())) {
+    throw new AppError(400, 'E-mail inválido');
+  }
+  if (typeof senha !== 'string' || senha.length < 6) {
+    throw new AppError(400, 'A senha deve ter pelo menos 6 caracteres');
+  }
+
+  const emailNormalizado = email.trim().toLowerCase();
+  const existente = await prisma.usuario.findUnique({ where: { email: emailNormalizado } });
+  if (existente) {
+    throw new AppError(409, 'E-mail já cadastrado');
+  }
+
+  const hash = await bcrypt.hash(senha, 10);
+  return prisma.usuario.create({
+    data: {
+      nome: nome.trim(),
+      email: emailNormalizado,
+      senha: hash,
+      role: 'ADMIN',
+    },
+    select: publico,
+  });
+}
+
+async function listarAdmins() {
+  return prisma.usuario.findMany({
+    where: { role: 'ADMIN' },
+    select: publico,
+    orderBy: { id: 'asc' },
   });
 }
 
@@ -64,4 +99,4 @@ async function perfil(usuarioId) {
   return usuario;
 }
 
-module.exports = { registrar, login, perfil };
+module.exports = { registrar, criarAdmin, listarAdmins, login, perfil };

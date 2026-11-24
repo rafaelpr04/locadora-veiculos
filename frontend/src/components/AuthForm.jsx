@@ -8,7 +8,6 @@ export default function AuthForm() {
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
-  const [role, setRole] = useState('CLIENTE');
   const [mensagem, setMensagem] = useState(null);
   const [enviando, setEnviando] = useState(false);
 
@@ -20,7 +19,7 @@ export default function AuthForm() {
     setEnviando(true);
     try {
       if (cadastro) {
-        await cadastrar(nome, email, senha, role);
+        await cadastrar(nome, email, senha);
       } else {
         await entrar(email, senha);
       }
@@ -42,19 +41,10 @@ export default function AuthForm() {
       <form className="painel" onSubmit={enviar}>
         <h2>{cadastro ? 'Criar conta' : 'Entrar'}</h2>
         {cadastro && (
-          <>
-            <label>
-              Nome
-              <input value={nome} onChange={(e) => setNome(e.target.value)} required />
-            </label>
-            <label>
-              Tipo de Perfil
-              <select value={role} onChange={(e) => setRole(e.target.value)}>
-                <option value="CLIENTE">Cliente</option>
-                <option value="ADMIN">Administrador</option>
-              </select>
-            </label>
-          </>
+          <label>
+            Nome
+            <input value={nome} onChange={(e) => setNome(e.target.value)} required />
+          </label>
         )}
         <label>
           E-mail
