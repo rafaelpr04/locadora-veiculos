@@ -11,7 +11,12 @@ exports.listar = async (req, res) => {
   res.json(locacoes);
 };
 
+exports.listarTodas = async (req, res) => {
+  const locacoes = await locacaoService.listarTodas();
+  res.json(locacoes);
+};
+
 exports.finalizar = async (req, res) => {
-  const locacao = await locacaoService.finalizar(req.usuarioId, parseId(req.params.id));
+  const locacao = await locacaoService.finalizar(req.usuarioId, parseId(req.params.id), req.usuarioRole);
   res.json(locacao);
 };

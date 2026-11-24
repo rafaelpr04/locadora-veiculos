@@ -46,6 +46,7 @@ export const api = {
     request(`/veiculos${somenteDisponiveis ? '?disponivel=true' : ''}`),
   criarVeiculo: (dados) => request('/veiculos', { method: 'POST', body: dados }),
   listarLocacoes: () => request('/locacoes'),
+  listarTodasLocacoes: () => request('/locacoes/todas'),
   criarLocacao: (dados) => request('/locacoes', { method: 'POST', body: dados }),
   finalizarLocacao: (id) => request(`/locacoes/${id}/finalizar`, { method: 'PATCH' }),
 };

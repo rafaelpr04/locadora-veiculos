@@ -1,8 +1,14 @@
 import { moeda } from '../utils/format.js';
 
-export default function VeiculoList({ veiculos }) {
+export default function VeiculoList({ veiculos, onAlugar, isAdmin }) {
   if (veiculos.length === 0) {
-    return <p className="vazio">Nenhum veículo encontrado. Cadastre o primeiro no formulário acima.</p>;
+    return (
+      <p className="vazio">
+        {isAdmin
+          ? 'Nenhum veículo cadastrado na frota. Cadastre o primeiro no formulário acima.'
+          : 'Nenhum veículo disponível para locação no momento.'}
+      </p>
+    );
   }
 
   return (
@@ -18,9 +24,16 @@ export default function VeiculoList({ veiculos }) {
               {v.ano} • {moeda(v.valorDiaria)} por dia
             </span>
           </div>
-          <span className={`selo ${v.disponivel ? 'selo-ok' : 'selo-off'}`}>
-            {v.disponivel ? 'Disponível' : 'Alugado'}
-          </span>
+          <div className="acoes">
+            <span className={`selo ${v.disponivel ? 'selo-ok' : 'selo-off'}`}>
+              {v.disponivel ? 'Disponível' : 'Alugado'}
+            </span>
+            {onAlugar && v.disponivel && (
+              <button type="button" onClick={() => onAlugar(v.id)}>
+                Alugar carro
+              </button>
+            )}
+          </div>
         </li>
       ))}
     </ul>

@@ -18,13 +18,14 @@ module.exports = async (req, res, next) => {
 
     const usuario = await prisma.usuario.findUnique({
       where: { id: Number(payload.sub) },
-      select: { id: true },
+      select: { id: true, role: true },
     });
     if (!usuario) {
       throw new AppError(401, 'Usuário do token não existe mais');
     }
 
     req.usuarioId = usuario.id;
+    req.usuarioRole = usuario.role;
     next();
   } catch (erro) {
     next(erro);

@@ -12,11 +12,17 @@ enum StatusLocacao {
   FINALIZADA
 }
 
+enum Role {
+  CLIENTE
+  ADMIN
+}
+
 model Usuario {
   id        Int       @id @default(autoincrement())
   nome      String
   email     String    @unique
   senha     String
+  role      Role      @default(CLIENTE)
   criadoEm  DateTime  @default(now())
   locacoes  Locacao[]
 }

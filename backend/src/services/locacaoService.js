@@ -70,12 +70,26 @@ async function listar(usuarioId) {
   });
 }
 
-async function finalizar(usuarioId, id) {
+async function listarTodas() {
+  return prisma.locacao.findMany({
+    include: {
+      usuario: {
+        select: { id: true, nome: true, email: true },
+      },
+      veiculo: {
+        select: { id: true, marca: true, modelo: true, placa: true, ano: true, valorDiaria: true },
+      },
+    },
+    orderBy: { id: 'desc' },
+  });
+}
+
+async function finalizar(usuarioId, id, usuarioRole) {
   const locacao = await prisma.locacao.findUnique({ where: { id } });
   if (!locacao) {
     throw new AppError(404, 'Locação não encontrada');
   }
-  if (locacao.usuarioId !== usuarioId) {
+  if (locacao.usuarioId !== usuarioId && usuarioRole !== 'ADMIN') {
     throw new AppError(403, 'Você não tem permissão para finalizar esta locação');
   }
   if (locacao.status === 'FINALIZADA') {
@@ -93,8 +107,18 @@ async function finalizar(usuarioId, id) {
 
     await tx.veiculo.update({ where: { id: locacao.veiculoId }, data: { disponivel: true } });
 
-    return tx.locacao.findUnique({ where: { id }, include: incluirVeiculo });
+    return tx.locacao.findUnique({
+      where: { id },
+      include: {
+        usuario: {
+          select: { id: true, nome: true, email: true },
+        },
+        veiculo: {
+          select: { id: true, marca: true, modelo: true, placa: true, ano: true, valorDiaria: true },
+        },
+      },
+    });
   });
 }
 
-module.exports = { criar, listar, finalizar };
+module.exports = { criar, listar, listarTodas, finalizar };

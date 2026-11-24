@@ -4,9 +4,9 @@ const prisma = require('../config/prisma');
 const AppError = require('../utils/AppError');
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const publico = { id: true, nome: true, email: true, criadoEm: true };
+const publico = { id: true, nome: true, email: true, role: true, criadoEm: true };
 
-async function registrar({ nome, email, senha } = {}) {
+async function registrar({ nome, email, senha, role } = {}) {
   if (typeof nome !== 'string' || !nome.trim()) {
     throw new AppError(400, 'Nome é obrigatório');
   }
@@ -17,6 +17,8 @@ async function registrar({ nome, email, senha } = {}) {
     throw new AppError(400, 'A senha deve ter pelo menos 6 caracteres');
   }
 
+  const roleNormalizada = role === 'ADMIN' ? 'ADMIN' : 'CLIENTE';
+
   const emailNormalizado = email.trim().toLowerCase();
   const existente = await prisma.usuario.findUnique({ where: { email: emailNormalizado } });
   if (existente) {
@@ -25,7 +27,12 @@ async function registrar({ nome, email, senha } = {}) {
 
   const hash = await bcrypt.hash(senha, 10);
   return prisma.usuario.create({
-    data: { nome: nome.trim(), email: emailNormalizado, senha: hash },
+    data: {
+      nome: nome.trim(),
+      email: emailNormalizado,
+      senha: hash,
+      role: roleNormalizada,
+    },
     select: publico,
   });
 }

@@ -1,12 +1,18 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { api } from '../services/api.js';
 import { moeda } from '../utils/format.js';
 
-export default function LocacaoForm({ veiculos, onSucesso, onErro }) {
-  const [veiculoId, setVeiculoId] = useState('');
+export default function LocacaoForm({ veiculos, veiculoIdPreselecionado, onSucesso, onErro }) {
+  const [veiculoId, setVeiculoId] = useState(veiculoIdPreselecionado ? String(veiculoIdPreselecionado) : '');
   const [dataInicio, setDataInicio] = useState('');
   const [dataPrevista, setDataPrevista] = useState('');
   const [enviando, setEnviando] = useState(false);
+
+  useEffect(() => {
+    if (veiculoIdPreselecionado) {
+      setVeiculoId(String(veiculoIdPreselecionado));
+    }
+  }, [veiculoIdPreselecionado]);
 
   async function enviar(evento) {
     evento.preventDefault();

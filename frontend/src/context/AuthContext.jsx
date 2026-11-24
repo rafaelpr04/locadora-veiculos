@@ -23,8 +23,8 @@ export function AuthProvider({ children }) {
   }, []);
 
   const cadastrar = useCallback(
-    async (nome, email, senha) => {
-      await api.registrar({ nome, email, senha });
+    async (nome, email, senha, role) => {
+      await api.registrar({ nome, email, senha, role });
       await entrar(email, senha);
     },
     [entrar]

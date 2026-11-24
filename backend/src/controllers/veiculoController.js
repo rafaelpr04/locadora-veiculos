@@ -6,6 +6,7 @@ exports.criar = async (req, res) => {
 };
 
 exports.listar = async (req, res) => {
-  const veiculos = await veiculoService.listar({ disponivel: req.query.disponivel });
+  const apenasDisponiveis = req.usuarioRole === 'ADMIN' ? req.query.disponivel : 'true';
+  const veiculos = await veiculoService.listar({ disponivel: apenasDisponiveis });
   res.json(veiculos);
 };

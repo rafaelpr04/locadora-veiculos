@@ -1,12 +1,14 @@
 const { Router } = require('express');
 const controller = require('../controllers/locacaoController');
 const auth = require('../middlewares/auth');
+const adminOnly = require('../middlewares/adminOnly');
 const asyncHandler = require('../utils/asyncHandler');
 
 const router = Router();
 
 router.use(auth);
 router.get('/', asyncHandler(controller.listar));
+router.get('/todas', adminOnly, asyncHandler(controller.listarTodas));
 router.post('/', asyncHandler(controller.criar));
 router.patch('/:id/finalizar', asyncHandler(controller.finalizar));
 

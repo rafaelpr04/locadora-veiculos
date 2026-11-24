@@ -6,7 +6,7 @@ import LocacaoForm from '../components/LocacaoForm.jsx';
 import LocacaoList from '../components/LocacaoList.jsx';
 import { moeda } from '../utils/format.js';
 
-export default function LocacoesPage() {
+export default function LocacoesPage({ veiculoIdPreselecionado }) {
   const { sair } = useAuth();
   const [locacoes, setLocacoes] = useState([]);
   const [disponiveis, setDisponiveis] = useState([]);
@@ -67,9 +67,14 @@ export default function LocacoesPage() {
 
   return (
     <section>
-      <LocacaoForm veiculos={disponiveis} onSucesso={aoRegistrar} onErro={aoFalhar} />
+      <LocacaoForm
+        veiculos={disponiveis}
+        veiculoIdPreselecionado={veiculoIdPreselecionado}
+        onSucesso={aoRegistrar}
+        onErro={aoFalhar}
+      />
       <Notice mensagem={mensagem} />
-      <h2>Histórico de locações</h2>
+      <h2>Minhas Locações</h2>
       <LocacaoList locacoes={locacoes} onFinalizar={finalizar} finalizandoId={finalizandoId} />
     </section>
   );
