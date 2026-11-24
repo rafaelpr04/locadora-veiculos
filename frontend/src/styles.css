@@ -1,0 +1,288 @@
+:root {
+  --fundo: #e8edef;
+  --superficie: #ffffff;
+  --tinta: #15242b;
+  --suave: #5a6b73;
+  --destaque: #0b6e5f;
+  --destaque-escuro: #085247;
+  --faixa: #f2c230;
+  --erro: #b3261e;
+  --linha: #cfd8dc;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--fundo);
+  color: var(--tinta);
+  font-family: 'Bahnschrift', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.5;
+}
+
+h1,
+h2 {
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+h2 {
+  font-size: 1.15rem;
+  grid-column: 1 / -1;
+}
+
+.marca {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.topo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 2rem;
+  padding: 0.9rem 1.5rem;
+  background: var(--tinta);
+  color: #fff;
+  border-bottom: 4px dashed var(--faixa);
+}
+
+.topo nav {
+  display: flex;
+  gap: 0.25rem;
+  flex: 1;
+}
+
+.sessao {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.aba {
+  background: transparent;
+  color: #cfd8dc;
+  border: 0;
+  padding: 0.4rem 0.9rem;
+  border-radius: 6px;
+}
+
+.aba.ativa {
+  background: #fff;
+  color: var(--tinta);
+}
+
+.conteudo,
+.auth {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.auth {
+  max-width: 420px;
+  padding-top: 4rem;
+}
+
+.auth .marca {
+  margin-bottom: 1.25rem;
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.painel {
+  background: var(--superficie);
+  border: 1px solid var(--linha);
+  border-radius: 10px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.painel.grade {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  align-items: end;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.9rem;
+  color: var(--suave);
+}
+
+input,
+select {
+  font: inherit;
+  padding: 0.55rem 0.65rem;
+  border: 1px solid var(--linha);
+  border-radius: 6px;
+  color: var(--tinta);
+  background: #fff;
+}
+
+input:focus-visible,
+select:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--faixa);
+  outline-offset: 1px;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+  border: 0;
+  border-radius: 6px;
+  padding: 0.6rem 1rem;
+  background: var(--destaque);
+  color: #fff;
+  font-weight: 600;
+}
+
+button:hover:not(:disabled) {
+  background: var(--destaque-escuro);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+button.link {
+  background: transparent;
+  color: inherit;
+  text-decoration: underline;
+  padding: 0.2rem;
+  font-weight: 400;
+}
+
+.aba:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.aba.ativa:hover:not(:disabled) {
+  background: #fff;
+}
+
+.painel button.link {
+  color: var(--suave);
+}
+
+.barra {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.check {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.item {
+  background: var(--superficie);
+  border: 1px solid var(--linha);
+  border-radius: 10px;
+  padding: 0.9rem 1.1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.item > div:first-child {
+  display: flex;
+  flex-direction: column;
+}
+
+.placa {
+  font-family: 'Consolas', 'Courier New', monospace;
+  color: var(--suave);
+}
+
+.meta {
+  color: var(--suave);
+  font-size: 0.9rem;
+}
+
+.valor {
+  font-weight: 700;
+  margin-top: 0.25rem;
+}
+
+.acoes {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.selo {
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.15rem 0.7rem;
+  border-radius: 999px;
+}
+
+.selo-ok {
+  background: #d7efe9;
+  color: var(--destaque-escuro);
+}
+
+.selo-off {
+  background: #e3e7e9;
+  color: var(--suave);
+}
+
+.notice {
+  margin: 0;
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.notice-erro {
+  background: #fbe4e2;
+  color: var(--erro);
+}
+
+.notice-sucesso {
+  background: #d7efe9;
+  color: var(--destaque-escuro);
+}
+
+.vazio {
+  color: var(--suave);
+  margin: 0;
+  padding: 1rem 0;
+}
+
+@media (max-width: 560px) {
+  .item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .acoes {
+    align-items: flex-start;
+  }
+}
